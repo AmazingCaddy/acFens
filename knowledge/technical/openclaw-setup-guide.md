@@ -123,9 +123,12 @@ curl -s -o /dev/null -w "HTTP %{http_code}" http://127.0.0.1:18000
 
 | 规则名 | 端口 | 协议 | 操作 |
 |:--|:--|:--|:--|
-| openclaw | 18000 | TCP | Allow |
 | HTTP | 80 | TCP | Allow |
 | HTTPS | 443 | TCP | Allow |
+
+> ⚠️ **不要暴露 18000 端口！** Gateway 端口由 Nginx 在本机内部转发（127.0.0.1:18000），无需对外开放。暴露 18000 会绕过 HTTPS 保护，形成安全隐患。
+>
+> 80 端口用于 Certbot 自动续期和 HTTP→HTTPS 重定向。
 
 ---
 
@@ -401,6 +404,7 @@ sudo certbot renew                # 手动续期
 1. **systemd 端口不同步**：`openclaw.json` 改了端口但 systemd service 文件没改，导致端口不生效。两边必须同步修改。
 2. **飞书 `groupAccess` 字段无效**：正确字段名是 `groupPolicy`，不是参考文档中的 `groupAccess`。
 3. **GitHub Copilot 模型前缀错误**：必须用 `github-copilot/` 前缀，用 `anthropic/` 会报找不到 API key。
+4. **不要在 NSG 暴露 Gateway 端口**：有 Nginx 反向代理后，18000 端口只需监听 127.0.0.1，对外只暴露 443（和 80 给 Certbot）。直接暴露 Gateway 端口是安全隐患。
 
 ---
 
