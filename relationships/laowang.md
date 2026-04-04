@@ -6,7 +6,7 @@
 
 - **称呼：** 老王
 - **Discord：** AmazingCaddy (amazingcaddy1572)
-- **飞书：** ou_6c409cb4b3985e39f94d1f06f926d445
+- **飞书：** <feishu_open_id>
 - **时区：** UTC+8（北京时间）
 - **位置：** 中国大陆
 - **代词：** 他/he
