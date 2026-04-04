@@ -21,7 +21,8 @@ acFens/
 │   └── lessons.md         # 教训总结
 │
 ├── episodes/              # 📖 发生了什么（情景记忆）
-│   ├── YYYY-MM/           # 按月归档的日记
+│   ├── YYYY-MM/           # 按月归档，每天一个文件
+│   │   └── YYYY-MM-DD.md
 │   └── milestones.md      # 里程碑事件
 │
 ├── skills/                # 🛠️ 我会什么（程序性记忆）
