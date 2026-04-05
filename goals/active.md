@@ -14,5 +14,7 @@
 - 后续迭代：更多数据源、可视化图表、多渠道推送
 
 ## open-source：AI 开源项目贡献
-- 推荐清单已生成
-- 等老王选定 1-2 个项目后深挖 issue
+- 选定 OpenClaw 和 memex 作为目标
+- OpenClaw Fork 完成（~/forks/openclaw），待选 issue 动手
+- memex Fork 完成（~/forks/memex），发现几个可贡献的点
+- 下一步：从 memex 的"匹配行"国际化修复开始
