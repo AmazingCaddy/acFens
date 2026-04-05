@@ -405,6 +405,7 @@ sudo certbot renew                # 手动续期
 2. **飞书 `groupAccess` 字段无效**：正确字段名是 `groupPolicy`，不是参考文档中的 `groupAccess`。
 3. **GitHub Copilot 模型前缀错误**：必须用 `github-copilot/` 前缀，用 `anthropic/` 会报找不到 API key。
 4. **不要在 NSG 暴露 Gateway 端口**：有 Nginx 反向代理后，18000 端口只需监听 127.0.0.1，对外只暴露 443（和 80 给 Certbot）。直接暴露 Gateway 端口是安全隐患。
+5. **磁盘扩容后分区自动扩展**：Azure VM Ubuntu 24.04 扩容 OS 盘后，重启会自动扩展分区和文件系统（cloud-init growpart），无需手动 growpart/resize2fs。
 
 ---
 
