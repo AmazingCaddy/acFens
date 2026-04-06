@@ -261,9 +261,15 @@ openclaw models status
 
 1. 打开 [Discord Developer Portal](https://discord.com/developers/applications)
 2. New Application → 起名 → 创建
-3. Bot 页面：Reset Token 复制 token，开启 Message Content Intent
-4. OAuth2 → URL Generator：勾选 `bot` scope，权限选 Send Messages / Read Message History / View Channels
+3. **Bot 页面**：
+   - Reset Token 复制 token（只显示一次！）
+   - Privileged Gateway Intents 下开启 **Message Content Intent**（必须，否则 Bot 在 guild channel 收不到消息内容）
+4. **OAuth2 → URL Generator**：
+   - Scopes 勾选 `bot` 和 `applications.commands`（后者用于 slash command 如 `/model`）
+   - Bot Permissions 勾选：View Channels、Send Messages、Send Messages in Threads、Read Message History、Embed Links、Attach Files、Add Reactions
 5. 复制生成的 URL，邀请 Bot 到你的私人服务器
+
+> 如果没有私人服务器，先创建一个：Discord 左侧 ➕ → Create My Own → For me and my friends。
 
 ### 8.2 配置 OpenClaw
 
@@ -275,13 +281,45 @@ openclaw config set channels.discord.groupPolicy open
 openclaw gateway restart
 ```
 
-### 8.3 设备配对
+### 8.3 Guild Channel 配置
+
+⚠️ **重要**：Discord guild 消息默认需要 @bot 才会触发回复（`requireMention` 默认 `true`）。如果希望 channel 里不 @bot 也能回复，需要配置：
+
+```json
+{
+  "channels": {
+    "discord": {
+      "guilds": {
+        "*": {
+          "requireMention": false,
+          "users": ["<你的 Discord 用户 ID>"]
+        }
+      }
+    }
+  }
+}
+```
+
+- `"*"` 表示对所有 guild 生效
+- `users` 列表中的用户才有权限使用 `/model` 等 slash command
+- 获取你的 Discord 用户 ID：Discord 设置 → 高级 → 开启开发者模式 → 右键点击自己头像 → Copy User ID
+
+### 8.4 设备配对
 
 首次私聊 Bot 会收到配对码：
 
 ```bash
 openclaw pairing approve discord <配对码>
 ```
+
+### 8.5 Slash Commands
+
+在 channel 里可以用 slash command：
+
+- `/model` — 切换当前 session 的模型
+- `/models` — 查看可用模型列表
+
+> ⚠️ 需要邀请时包含 `applications.commands` scope，且用户在 guild `users` 列表中。
 
 > ⚠️ Discord 在中国大陆需要翻墙才能使用。
 
@@ -406,7 +444,18 @@ sudo certbot renew                # 手动续期
 3. **GitHub Copilot 模型前缀错误**：必须用 `github-copilot/` 前缀，用 `anthropic/` 会报找不到 API key。
 4. **不要在 NSG 暴露 Gateway 端口**：有 Nginx 反向代理后，18000 端口只需监听 127.0.0.1，对外只暴露 443（和 80 给 Certbot）。直接暴露 Gateway 端口是安全隐患。
 5. **磁盘扩容后分区自动扩展**：Azure VM Ubuntu 24.04 扩容 OS 盘后，重启会自动扩展分区和文件系统（cloud-init growpart），无需手动 growpart/resize2fs。
+6. **Discord guild channel 不回复（no-mention）**：`requireMention` 默认为 `true`，必须在 `guilds` 中显式设为 `false`。仅在 guild 级别设置即可，无需按 channel 单独配置。
+7. **Discord 频繁重启导致连不上**：反复 `openclaw gateway restart` 会触发 Discord 的 identify 速率限制，导致 Bot 卡在 `awaiting gateway readiness`。遇到时停掉 gateway 等几分钟再启动。
+8. **Discord channel session 损坏导致 Bot 只 typing 不回复**：如果 Bot 显示"正在输入"但没有回复（DM 正常），可能是该 channel 的 session 文件损坏。找到 session 文件重命名为 `.bak`，重启 gateway 即可：
+   ```bash
+   # 在 sessions.json 中找到对应 channel 的 sessionId
+   grep "<channel-id>" ~/.openclaw/agents/main/sessions/sessions.json
+   # 重命名损坏的 session 文件
+   mv ~/.openclaw/agents/main/sessions/<sessionId>.jsonl ~/.openclaw/agents/main/sessions/<sessionId>.jsonl.bak
+   openclaw gateway restart
+   ```
+9. **Discord slash command 报 "not authorized"**：需要在 guild 配置的 `users` 列表中加入你的 Discord 用户 ID，且邀请 Bot 时需包含 `applications.commands` scope。
 
 ---
 
-*记录于 2026-04-04 | 基于实际部署过程整理*
+*记录于 2026-04-04 | 更新于 2026-04-06 | 基于实际部署过程整理*
