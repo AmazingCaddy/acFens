@@ -19,7 +19,8 @@
 - 选定 OpenClaw 和 memex 作为目标
 - OpenClaw Fork 完成（~/forks/openclaw），待选 issue 动手
 - memex Fork 完成（~/forks/memex），发现几个可贡献的点
-- 下一步：从 memex 的"匹配行"国际化修复开始
+- pew Fork 完成（~/forks/pew），已完成架构分析和待办扫描
+- 下一步：从 pew 的 API 速率限制或 Worker 安全加固切入
 
 ## 飞书集成
 - 私聊 ✅ 群聊 ✅（免 @ 回复）
