@@ -16,6 +16,7 @@
 8. [配置 Discord Channel](#8-配置-discord-channel)
 9. [配置飞书（Feishu）Channel](#9-配置飞书feishuchannel)
 10. [常用运维命令](#10-常用运维命令)
+11. [配置多 Agent（多机器人）](#11-配置多-agent多机器人)
 
 ---
 
@@ -459,3 +460,141 @@ sudo certbot renew                # 手动续期
 ---
 
 *记录于 2026-04-04 | 更新于 2026-04-06 | 基于实际部署过程整理*
+
+## 11. 配置多 Agent（多机器人）
+
+OpenClaw 支持在一个 Gateway 上运行多个 Agent，各有独立的 workspace、人设和路由。
+
+### 11.1 整体架构
+
+```
+┌─────────────────────────────────────────────┐
+│             OpenClaw Gateway                 │
+├──────────────────┬──────────────────────────┤
+│ 🧓 main (OldWang) │ 💻 coder (Coder)         │
+│ workspace:       │ workspace:               │
+│ ~/.openclaw/     │ ~/.openclaw/             │
+│   workspace/     │   workspace-coder/       │
+│ 路由：            │ 路由：                    │
+│ feishu:default   │ feishu:coder             │
+│ discord:default  │ (待绑)                    │
+│ 群里一直响应      │ 群里需@才响应             │
+└──────────────────┴──────────────────────────┘
+```
+
+### 11.2 创建新 Agent
+
+```bash
+# 1. 创建 workspace 目录
+mkdir -p ~/.openclaw/workspace-coder
+
+# 2. 写入 IDENTITY.md 和 SOUL.md（人设文件）
+# IDENTITY.md: Name, Emoji, Vibe
+# SOUL.md: 核心原则、风格、语言偏好
+
+# 3. 添加 agent
+openclaw agents add coder --workspace ~/.openclaw/workspace-coder
+
+# 4. 设置 identity（从 IDENTITY.md 读取）
+openclaw agents set-identity --agent coder --from-identity --workspace ~/.openclaw/workspace-coder
+
+# 5. 验证
+openclaw agents list
+```
+
+### 11.3 配置飞书多 Account
+
+在飞书开放平台新建第二个机器人应用，获取 App ID 和 App Secret。
+
+```bash
+# 添加新 account 凭据
+openclaw config set channels.feishu.accounts.coder.appId "cli_xxx"
+openclaw config set channels.feishu.accounts.coder.appSecret "xxx"
+openclaw config set channels.feishu.accounts.coder.name "Coder"
+```
+
+⚠️ **关键陷阱**：添加 accounts 后，必须确保有 `"default": {}` 条目，否则原有机器人会断开！
+
+```json5
+// 正确配置
+channels: {
+  feishu: {
+    appId: "cli_主bot的id",
+    appSecret: "主bot的secret",
+    accounts: {
+      "default": {},   // ← 必须！继承顶层凭证
+      "coder": {
+        appId: "cli_新bot的id",
+        appSecret: "新bot的secret",
+        name: "Coder"
+      }
+    }
+  }
+}
+```
+
+### 11.4 配置路由绑定
+
+```bash
+# 把 coder account 的消息路由到 coder agent
+openclaw agents bind --agent coder --bind feishu:coder
+
+# 查看所有绑定
+openclaw agents bindings
+```
+
+路由规则：
+- 没有显式绑定的 channel/account → 路由到 `main`（默认 agent）
+- 有绑定的 → 路由到指定 agent
+
+### 11.5 配置群聊行为
+
+不同 Agent 在群聊里可以有不同的触发方式：
+
+```bash
+# 主 Agent：群里一直响应（不需要@）
+# 这是顶层 requireMention: false 控制的
+
+# Coder Agent：群里需要@才响应
+openclaw config set channels.feishu.accounts.coder.requireMention true
+```
+
+### 11.6 新飞书机器人的后台配置
+
+新机器人在飞书开放平台需要：
+1. 添加「机器人」能力
+2. 开通权限（同第 9 节）
+3. 事件订阅 → **长连接 WebSocket** → 添加 `im.message.receive_v1`
+4. 发布上线
+
+无需配置回调 URL（WebSocket 模式自动连接）。
+
+### 11.7 重启生效
+
+```bash
+openclaw gateway restart
+```
+
+### 11.8 子 Agent 并发配置
+
+多 Agent 使用子 agent（sessions_spawn）时的并发限制：
+
+```bash
+# 每个 agent session 最大活跃子 agent 数（默认 5，范围 1-20）
+openclaw config set agents.defaults.subagents.maxChildrenPerAgent 10
+
+# 全局最大并发子 agent 数（默认 8）
+openclaw config set agents.defaults.subagents.maxConcurrent 16
+```
+
+---
+
+### 多 Agent 踩坑记录
+
+1. **accounts 陷阱**：添加 `accounts.coder` 后不加 `"default": {}`，会导致原有 bot 断开连接。OpenClaw 只启动 accounts 里显式列出的账号。
+2. **重启断连**：`openclaw gateway restart` 会中断当前所有 session（包括自己正在聊的）。在聊天中执行需提前告知用户。
+3. **群聊双响**：两个 bot 都在同一个群里时，默认都会响应。用 `requireMention` 控制哪个需要 @才响应。
+
+---
+
+*记录于 2026-04-19 | 基于实际配置过程整理*
