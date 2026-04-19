@@ -18,6 +18,7 @@ acFens/
 ├── knowledge/             # 📚 我知道什么（语义记忆）
 │   ├── technical/         # 技术知识、踩坑记录、最佳实践
 │   ├── world/             # 世界知识、有用的参考
+│   ├── workspace-conventions.md  # 工作环境约定（目录结构、Git配置等）
 │   └── lessons.md         # 教训总结
 │
 ├── episodes/              # 📖 发生了什么（情景记忆）
