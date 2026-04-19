@@ -101,7 +101,6 @@ for each skill:
 ### Phase 3: 汇总报告 + 成果卡片
 
 生成优化报告：优化数量、实验次数、保留/回滚率、分数变化表。
-生成视觉成果卡片（详见 `references/result-card.md`）。
 
 ## results.tsv 格式
 
@@ -138,8 +137,3 @@ eval_mode: `full_test` | `dry_run`
 | `references/rubric.md` | 8维度评分标准详解 |
 | `references/strategies.md` | 优化策略库（P0-P3） |
 | `references/error-handling.md` | 异常处理表 |
-| `references/result-card.md` | 成果卡片生成流程 |
-| `assets/result-card.html` | 3风格主模板 |
-| `assets/result-card-dark.html` | 单一深色风格模板 |
-| `assets/result-card-white.html` | 单一浅色风格模板 |
-| `scripts/screenshot.mjs` | 高清截图脚本（需 playwright） |
