@@ -1,5 +1,10 @@
 # Lessons 📝
 
+## OpenClaw 大版本升级前先看 changelog
+- **来源：** 2026-05-03 从 2026.3.28 升级到 2026.5.2
+- **教训：** npm install -g 升级后直接 restart 失败——`discord.streaming` 从字符串改成了对象格式，`plugins.entries.feishu` 变成废弃条目。升级前应先查看 changelog / release notes，升级后先跑 `openclaw doctor --fix` 再 restart，避免断线。
+- **次数：** 1
+
 ## lessons.md 新条目要放在最前面（倒序）
 - **来源：** 2026-04-07 再次把新教训追加到末尾
 - **教训：** lessons.md 是倒序排列（新→旧），新条目必须插入到文件开头，不是追加到末尾。这已经是第二次犯了。
