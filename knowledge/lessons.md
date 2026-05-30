@@ -15,6 +15,11 @@
 - **教训：** 调试 API 时写了 test block，没清理干净就交付了，老王看到文档开头是 "test"。任何调试/测试数据在交付前必须清理。
 - **次数：** 1
 
+## 升级 OpenClaw 后必须先重装插件再重启
+- **来源：** 2026-05-30 升级 2026.5.2 → 2026.5.27
+- **教训：** npm update -g openclaw 之后，外部插件（feishu、discord）会因为编译产物路径变化而挂掉。正确顺序：升级 → openclaw plugins install @openclaw/feishu → openclaw plugins install @openclaw/discord → 再重启 gateway。否则重启时插件加载失败，直接断线。
+- **次数：** 多次（老王原话：「每次升级，你都把自己搞挂了」）
+
 ## 飞书 API 文档和实际行为有出入，要实测
 - **来源：** 2026-05-04 block_type 对不上
 - **教训：** 飞书文档 API 的 block_type 编号（如 bullet=7, divider=14）和实际可用值（bullet=12, divider=22）不一致。API 对接要先小规模测试，不要照搬文档。
