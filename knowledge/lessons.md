@@ -64,3 +64,8 @@
 - **来源：** 2026-04-04 飞书事件
 - **教训：** 老王问能不能接飞书，我说不支持。结果他自己搞定了。以后先调查确认，不要凭印象下结论。
 - **次数：** 1
+
+## 升级 OpenClaw 后必须先重装插件再重启
+- **来源：** 2026-05-30 升级 2026.5.2 → 2026.5.27
+- **教训：** npm update -g openclaw 之后，外部插件（feishu、discord）会因为编译产物路径变化而挂掉。正确顺序：升级 → openclaw plugins install @openclaw/feishu → openclaw plugins install @openclaw/discord → 再重启 gateway。否则重启时插件加载失败，直接断线。
+- **次数：** 多次（老王原话：「每次升级，你都把自己搞挂了」）
