@@ -1,30 +1,41 @@
-# Productivity Agent Project
+# memory-agent Project
 
-**Owner**: 老王 | **Coach**: Ada (OldWang) | **Start**: 2026-07-08
+**Owner**: 老王 | **Coach**: Ada (OldWang) | **Restart**: 2026-07-10 (Fri) | **交付**: 2026-07-19 (Sun)
 
-一个个人生产力 Agent，帮老王管理任务、辅助决策、把知识变成漂亮的 HTML 分享给大家。
+一个 MCP server，管好老王的 md 知识库——让 Claude Code / GitHub Copilot / OpenClaw 在 IDE 里都能查到正确的 memory 作为 context，让新知识必须经它入库以防脏化，让老库能被逐步治理干净。
 
-## 目标
+## 目标（10 天冲刺）
 
-- 30 天内学会主流 Agent 框架 + 做出一个我每天真用的 Agent
-- 深挖 1 个 Agent 开发痛点：记忆管理 + 长期任务追踪
-- 沉淀公开可分享的成果
+1. 100 篇 Edge md 知识库跑通 **Ingest / Read / Write / Curate** 四能力
+2. MCP server 挂到 Claude Code / Copilot / OpenClaw
+3. HTML 分享 + 深度笔记发出去（LangGraph.js 心得 / MCP 设计 / 脏 md 治理实战）
 
 ## 关键文档
 
-- [30 天详细计划](./PLAN.md) ← 主要看这个
-- [每日进度](./JOURNAL.md) ← 每天记录一句话
-- [技术笔记](./notes/) ← 学习过程中的笔记
-- [代码](./src/) ← 从 Day 1 开始的代码
+- [10 天详细计划 (v2)](./PLAN.md) ← 主要看这个
+- [每日进度](./JOURNAL.md) ← 每天记录
+- [v1 存档](./PLAN-v1-python-30day.md) ← 原 30 天 Python 版，Day 3 重启后废弃
 
-## 技术栈（Day 1 定的）
+## 技术栈（v2）
 
-- 主框架：LangGraph
-- 任务后台：飞书多维表格
-- 知识存储：SQLite + chromadb
-- HTML 生成：Jinja2 + LLM 结构化输出
-- 入口：CLI → 后期挂 OpenClaw
+- **语言/运行时**：TypeScript + Node 22 + pnpm
+- **Agent 框架**：LangGraph.js + Vercel AI SDK + 手写 while 循环（三路对比）
+- **MCP**：`@modelcontextprotocol/sdk`
+- **存储**：SQLite (`better-sqlite3`) + LanceDB
+- **md 处理**：gray-matter + remark
+- **HTML 分享**：React + Tailwind 静态构建
+- **入口**：MCP server（IDE 主战场）→ 后期挂 OpenClaw
+
+## 代码库
+
+- 代码：[`AmazingCaddy/memory-agent`](https://github.com/AmazingCaddy/memory-agent) → `~/repos/memory-agent/`
+- 数据：`~/memory/`（独立 git repo，版本化）
+- 前身：[`AmazingCaddy/productivity-agent`](https://github.com/AmazingCaddy/productivity-agent)（已 `ARCHIVED`）
 
 ## 状态
 
-- 2026-07-08：目标 lock in，PLAN.md 就绪，Day 1 就位
+- 2026-07-08：v1 (Py/30 天) 目标 lock in
+- 2026-07-09：v1 Day 1 环境搭好（Python + uv + langchain）
+- 2026-07-10 上午：v1 Day 2 完成（`create_agent` + 手写 while 循环，看清 agent = 循环）
+- 2026-07-10 下午：**v2 重启**——TS + Memory Agent + MCP + 10 天
+- **进行中**：D1 基建 + 三路 hello + MCP hello
