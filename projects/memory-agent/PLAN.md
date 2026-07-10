@@ -2,8 +2,9 @@
 
 **Owner**: 老王
 **Coach**: OldWang (Ada)
-**启动日期**: 2026-07-10 (Fri) — 从 productivity-agent v1 (Python/30天) 重启
-**交付日期**: 2026-07-19 (Sun)
+**重启决策**: 2026-07-10 (Fri) 下午 — 从 productivity-agent v1 (Python/30天) 重启
+**D1 启动**: 2026-07-11 (Sat) — 7/10 已听完变更沟通，当天不再代码
+**交付日期**: 2026-07-20 (Mon)
 **上一版计划**: [`PLAN-v1-python-30day.md`](./PLAN-v1-python-30day.md)（30 天 Python 版，Day 2 后废弃）
 
 ---
@@ -148,7 +149,7 @@ list_stale({ domain?, older_than? })
 
 ## 📅 10 天 Daily Checklist
 
-### 🏁 D1 (7/10 Fri) — 基建 + 三路 hello + MCP hello
+### 🏁 D1 (7/11 Sat) — 基建 + 三路 hello + MCP hello
 
 - [ ] 新建 `~/repos/memory-agent/`，pnpm init，tsconfig，biome，vitest
 - [ ] 装依赖：`@langchain/langgraph @langchain/anthropic ai @anthropic-ai/sdk @modelcontextprotocol/sdk better-sqlite3 gray-matter`
@@ -160,7 +161,7 @@ list_stale({ domain?, older_than? })
 - [ ] 更新 `~/.claude/mcp.json`（或 repo 级 `.mcp.json`）
 - **产出**：repo 就位 + 三路对比笔记初稿 + Claude Code 里能看到 memory-agent MCP server
 
-### 🏗️ D2 (7/11 Sat) — Memory System 定型 + schema 落地
+### 🏗️ D2 (7/12 Sun) — Memory System 定型 + schema 落地
 
 - [ ] frontmatter schema 定稿（含 code_refs），写成 Zod schema + TS type
 - [ ] SQLite 建表：`memories / relations / ingest_log`
@@ -169,7 +170,7 @@ list_stale({ domain?, older_than? })
 - [ ] `memory-agent` 里写 `src/schema.ts` + `src/store/sqlite.ts` + `src/store/vector.ts`
 - **产出**：`schema.md` 规范文档 + 空索引可以建/查
 
-### 🩺 D3 (7/12 Sun) — 迁移治理 Pass 1：扫描 & 健康报告
+### 🩺 D3 (7/13 Mon) — 迁移治理 Pass 1：扫描 & 健康报告
 
 - [ ] 老王把 100 篇 Edge md 的文件夹交给我
 - [ ] 写 `scripts/scan-existing.ts`：读所有 md，抽 frontmatter（若有）、内容 hash、大小、mtime
@@ -177,7 +178,7 @@ list_stale({ domain?, older_than? })
 - [ ] 生成 `reports/health-YYYY-MM-DD.md`：冲突候选、过时候选、重复候选、无标题/无 frontmatter 的
 - **产出**：健康报告 + 你的库画像（多少领域、平均新鲜度、冲突热点）
 
-### 📥 D4 (7/13 Mon) — Ingest Pipeline (fresh_write 路径)
+### 📥 D4 (7/14 Tue) — Ingest Pipeline (fresh_write 路径)
 
 - [ ] md 解析：`gray-matter` frontmatter + `remark` 内容分块（按 heading + 长度）
 - [ ] 每 chunk：生成 embedding、抽 code_refs、算 hash
@@ -185,7 +186,7 @@ list_stale({ domain?, older_than? })
 - [ ] CLI：`memory-agent ingest <path>` 单文件；`memory-agent ingest --all` 批量
 - **产出**：把 D3 扫过的 md 全灌进索引，能 `sqlite3 index.db "select ..."` 抽样验证
 
-### 🔍 D5 (7/14 Tue) — Agentic Retrieval + MCP `search_memory` + `find_memory_for_code`
+### 🔍 D5 (7/15 Wed) — Agentic Retrieval + MCP `search_memory` + `find_memory_for_code`
 
 - [ ] LangGraph.js 节点链：`understand_query → retrieve → rerank → format_answer`
 - [ ] `find_memory_for_code`：**先查 code_refs 精确表 + 再补向量语义检索**（hybrid）
@@ -194,7 +195,7 @@ list_stale({ domain?, older_than? })
 - [ ] Claude Code 实测：给一个 Edge 符号，能拿到相关 md 引用
 - **产出**：Claude Code 里 `@memory` 或 tool call 能用
 
-### ⚖️ D6 (7/15 Wed) — 冲突/过时检测（治理核心）+ MCP `list_conflicts`
+### ⚖️ D6 (7/16 Thu) — 冲突/过时检测（治理核心）+ MCP `list_conflicts`
 
 - [ ] 冲突检测：对同 domain 下多篇 memory，LLM 判断 pairwise 是否矛盾
 - [ ] 过时检测：mtime + `version` + `verified_against_commit` + LLM 检测"跟同主题最新版对比是否过时"
@@ -202,7 +203,7 @@ list_stale({ domain?, older_than? })
 - [ ] MCP tool: `list_conflicts / list_stale`
 - **产出**：你库里的真冲突/过时能被自动扒出，Claude Code 能查到
 
-### ✍️ D7 (7/16 Thu) — Write Pipeline（守门人）+ MCP `add_memory`
+### ✍️ D7 (7/17 Fri) — Write Pipeline（守门人）+ MCP `add_memory`
 
 - [ ] Agent 判定入库姿势：LLM + 检索 top-k 已有 memory → 决定 fresh_write / update / conflict / merge
 - [ ] 每种姿势对应的写入实现
@@ -210,21 +211,21 @@ list_stale({ domain?, older_than? })
 - [ ] Claude Code 实测："记这个 → agent 应答'跟 mem_xxx 相似要 update 吗？'"
 - **产出**：你能在 IDE 里说记东西，agent 会守门
 
-### 🧹 D8 (7/17 Fri) — 迁移治理 Pass 2：执行
+### 🧹 D8 (7/18 Sat) — 迁移治理 Pass 2：执行
 
 - [ ] 按 D3/D6 的报告，实际执行归档/合并/隔离
 - [ ] 老 → `legacy`；冲突 → `quarantine/`；重复 → 合并稿进 `inbox/` 让老王审
 - [ ] 治理审批 UI：一个简单 CLI 或 web page 列出待办，你 y/n 通过
 - **产出**：你的 Edge 库变干净，`~/memory/` 提交 v0.1 tag
 
-### 🍚 D9 (7/18 Sat) — Dogfooding
+### 🍚 D9 (7/19 Sun) — Dogfooding
 
 - [ ] 真在 Edge 项目里用 Claude Code 写代码，让 memory-agent 全程加持
 - [ ] 记录：查询是否准、response 是否快、有没有 memory 应该有但没查到、有没有 memory 应该拒绝但没拒
 - [ ] 修 bug、调 prompt、调 chunk 大小 / top_k / rerank 阈值
 - **产出**：实测报告 + 一批修复 commit
 
-### 🎁 D10 (7/19 Sun) — 挂 OpenClaw + HTML 分享 + 收官
+### 🎁 D10 (7/20 Mon) — 挂 OpenClaw + HTML 分享 + 收官
 
 - [ ] MCP 挂到 OpenClaw（我这边），飞书聊天也能查 memory
 - [ ] HTML 分享：`memory-agent publish <topic>` → React 静态构建输出到 `~/memory-site/`
@@ -276,9 +277,14 @@ list_stale({ domain?, older_than? })
 
 ## 🎬 立即行动清单
 
-**今天 (D1) 剩余时间**：
-1. 老王把 Edge md 库路径告诉我
-2. 我起 `~/repos/memory-agent/` 骨架
+**今天 (7/10) 已完成**：
+- ✅ 旧项目封存 (`productivity-agent` + `ARCHIVED.md`)
+- ✅ 新 repo `~/repos/memory-agent/` 初始化，挂 remote `AmazingCaddy/memory-agent`
+- ✅ acFens PLAN v2 / v1 存档 / README / goals / JOURNAL / 2026-07-10 episode 全部更新
+
+**明天 (D1, 7/11 Sat) 要干**：
+1. 老王把 Edge md 库路径告诉我（也可以今晚先告诉，我可以提前扫一眼）
+2. 起 `~/repos/memory-agent/` 骨架（pnpm + tsconfig + biome + vitest）
 3. 三路 hello + MCP hello 落地
 4. Claude Code 挂上 memory-agent MCP server 验证
 

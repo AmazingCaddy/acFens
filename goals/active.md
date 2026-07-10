@@ -28,7 +28,7 @@
 - 后续：探索更多飞书功能（卡片消息、审批等）
 
 ## 🌟 [主线-10天] memory-agent：老王的 md 知识库 MCP
-**启动日期**: 2026-07-10 (Fri, 从 productivity-agent v1 重启) | **交付日期**: 2026-07-19 (Sun)
+**启动日期**: 2026-07-10 (Fri) 下午重启决策 | **D1 启动**: 2026-07-11 (Sat) | **交付日期**: 2026-07-20 (Mon)
 
 ### 一句话定位
 memory-agent = MCP server，让 Claude Code / GitHub Copilot / OpenClaw 都能在 IDE 里查到老王 md 知识库里正确的 memory 作为 context；新知识经它入库以防脏化；老库能被逐步治理干净。
@@ -50,23 +50,23 @@ memory-agent = MCP server，让 Claude Code / GitHub Copilot / OpenClaw 都能�
 - 代码：`~/repos/memory-agent/`（新起，v1 Python 版 `~/repos/productivity-agent/` 已封存）
 - 数据：`~/memory/`（独立 git repo，版本化）
 
-### 10 天节奏
-- **D1 (7/10 今天)**: repo 骨架 + 三路 hello + MCP hello，Claude Code 挂上
-- **D2 (7/11)**: Memory schema 定型（含 code_refs）+ SQLite/LanceDB 落地
-- **D3 (7/12)**: 扫 100 篇现有 Edge md → 健康报告
-- **D4 (7/13)**: Ingest Pipeline
-- **D5 (7/14)**: Agentic Retrieval + MCP `find_memory_for_code`
-- **D6 (7/15)**: 冲突/过时检测
-- **D7 (7/16)**: Write Pipeline (守门人)
-- **D8 (7/17)**: 迁移治理 Pass 2 (执行归档/合并/隔离)
-- **D9 (7/18)**: Dogfooding — 真在 Edge 代码里用
-- **D10 (7/19)**: 挂 OpenClaw + HTML 分享 + 深度笔记 + 发博客
+### 10 天节奏（D1 从明天 7/11 开始，今天 7/10 听变更不写代码）
+- **D1 (7/11 Sat)**: repo 骨架 + 三路 hello + MCP hello，Claude Code 挂上
+- **D2 (7/12 Sun)**: Memory schema 定型（含 code_refs）+ SQLite/LanceDB 落地
+- **D3 (7/13 Mon)**: 扫 100 篇现有 Edge md → 健康报告
+- **D4 (7/14 Tue)**: Ingest Pipeline
+- **D5 (7/15 Wed)**: Agentic Retrieval + MCP `find_memory_for_code`
+- **D6 (7/16 Thu)**: 冲突/过时检测
+- **D7 (7/17 Fri)**: Write Pipeline (守门人)
+- **D8 (7/18 Sat)**: 迁移治理 Pass 2 (执行归档/合并/隔离)
+- **D9 (7/19 Sun)**: Dogfooding — 真在 Edge 代码里用
+- **D10 (7/20 Mon)**: 挂 OpenClaw + HTML 分享 + 深度笔记 + 发博客
 
 ### 状态
 - [x] v1 (Python/30天) Day 0-2 完成后重启决策 (7/10)
 - [x] 旧 repo 封存（`ARCHIVED.md`）
 - [x] PLAN v2 就位
-- [ ] D1 落地：起 `~/repos/memory-agent/` + 三路 hello + MCP hello
+- [ ] D1 落地（**明天 7/11 Sat**）：起 `~/repos/memory-agent/` 骨架 + 三路 hello + MCP hello
 - [ ] 详细 checklist 见 `~/acFens/projects/memory-agent/PLAN.md`
 - [ ] v1 原 PLAN 存档：`~/acFens/projects/memory-agent/PLAN-v1-python-30day.md`
 
