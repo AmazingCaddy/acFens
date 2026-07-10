@@ -39,7 +39,43 @@
 - [ ] 跑通 3 个 API call：直调 OpenAI、直调 Anthropic、通过 LangChain 调
 - [ ] 产出：`day1-hello-llm.py`
 
-## 2026-07-10 (Fri) - Day 2
+## 2026-07-10 (Fri) - Day 3（重启）
+
+### 关键决策：项目重启为 **memory-agent** 🚀
+- **启发**：老王看了 Claude Code 源码 + 手写 while 循环 → "agent = while 循环" 祛魅完成
+- **四个大调整**：
+  1. **Python → TypeScript**（跟 Claude Code / OpenClaw / 我 拉齐）
+  2. **通用生产力 Agent → Memory Agent**（盯住老王真实痛点：100 篇 Edge md 治理 + IDE 里查知识）
+  3. **飞书主入口 → MCP server（IDE 主战场）**：Copilot/Claude Code 直接接
+  4. **30 天 → 10 天冲刺**（交付 7/19）
+- **旧项目封存**：`~/repos/productivity-agent/` 加 `ARCHIVED.md`，推到 remote（commit `b58c2dd`）
+  - 保留作为学习残档，尤其 `day2-agent-from-scratch.py` 的心智模型直接迁移到 TS 版
+- **acFens 里重命名**：`projects/productivity-agent/` → `projects/memory-agent/`
+- **PLAN v2 完成**：`projects/memory-agent/PLAN.md`（原版存为 `PLAN-v1-python-30day.md`）
+- **`goals/active.md` 同步更新**
+
+### memory-agent 核心设计（D2 要落地）
+- **存储分层**：`~/memory/domains/<domain>/` (canonical) + `inbox/` + `quarantine/` + `legacy` 同层保留
+- **frontmatter schema 杀手销：`code_refs`**（文件路径 + 类/函数名 + Edge 版本 + verified commit）——这是差异化价值
+- **四种入库姿势**：fresh_write / update / conflict / merge_suggestion
+- **MCP tools**：`find_memory_for_code` / `search_memory` / `get_code_refs` / `add_memory` / `list_conflicts` / `list_stale`
+
+### 待老王补的
+- [ ] 100 篇 Edge md 的文件夹路径
+- [ ] 1-2 个具体的冲突 / 过时例子（做 D6 靶子）
+
+### D1 待办（今天剩余时间）
+- [ ] 起 `~/repos/memory-agent/` 骨架（pnpm + tsconfig + biome + vitest）
+- [ ] 三路 hello：LangGraph.js / AI SDK / 手写 while
+- [ ] MCP hello world server + Claude Code 挂上验证
+
+### 敎橁
+- 跟老王聊一小时不到，项目从"学习 30 天"变成"10 天搭真家伙"——需求磨到够锚尖时，方案自己就会祛魅
+- “Agent = while 循环"这个洞察值得进 `knowledge/lessons.md`（下次提醒老王）
+
+---
+
+## 2026-07-10 (Fri) - Day 2 日记（下面是旧 v1 Python 项目的，保留作学习记录）
 
 ### LangChain 有工具的对话 Agent ✅
 - 模型接入方案定了：用 `langchain-litellm` 的 `ChatLiteLLM` 挂 `github_copilot/claude-sonnet-4.5`——离线不用真 key 也能跑，避开 Day 1 遗留的 key 问题
