@@ -28,7 +28,7 @@
 
 ## 代码库
 
-- 代码：[`AmazingCaddy/memory-agent`](https://github.com/AmazingCaddy/memory-agent) → `~/repos/memory-agent/`
+- 代码：[`AmazingCaddy/memory-agent`](https://github.com/AmazingCaddy/memory-agent) → `~/Code/memory-agent/`
 - 数据：`~/memory/`（独立 git repo，版本化）
 - 前身：[`AmazingCaddy/productivity-agent`](https://github.com/AmazingCaddy/productivity-agent)（已 `ARCHIVED`）
 
