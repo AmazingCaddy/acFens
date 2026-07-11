@@ -61,7 +61,7 @@
 ### 存储布局
 
 ```
-~/Code/memory-agent/                ← 代码
+~/repos/memory-agent/               ← 代码
 ~/memory/                           ← 数据（独立 git repo，版本化）
 ├── index.db                          SQLite: memories / relations / ingest_log
 ├── vectors/                          LanceDB 索引
@@ -279,7 +279,7 @@ list_stale({ domain?, older_than? })
 
 **今天 (7/10) 已完成**：
 - ✅ 旧项目封存 (`productivity-agent` + `ARCHIVED.md`)
-- ✅ 新 repo `~/Code/memory-agent/` 初始化，挂 remote `AmazingCaddy/memory-agent`
+- ✅ 新 repo `~/repos/memory-agent/` 初始化，挂 remote `AmazingCaddy/memory-agent`
 - ✅ acFens PLAN v2 / v1 存档 / README / goals / JOURNAL / 2026-07-10 episode 全部更新
 
 **D1 (7/11 Sat) 已完成**：

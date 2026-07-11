@@ -1,6 +1,6 @@
 # memory-agent Project
 
-**Owner**: 老王 | **Coach**: Ada (OldWang) | **Restart**: 2026-07-10 (Fri) | **交付**: 2026-07-19 (Sun)
+**Owner**: 老王 | **Coach**: Ada (OldWang) | **Restart**: 2026-07-10 (Fri) | **交付**: 2026-07-20 (Mon)
 
 一个 MCP server，管好老王的 md 知识库——让 Claude Code / GitHub Copilot / OpenClaw 在 IDE 里都能查到正确的 memory 作为 context，让新知识必须经它入库以防脏化，让老库能被逐步治理干净。
 
@@ -28,7 +28,7 @@
 
 ## 代码库
 
-- 代码：[`AmazingCaddy/memory-agent`](https://github.com/AmazingCaddy/memory-agent) → `~/Code/memory-agent/`
+- 代码：[`AmazingCaddy/memory-agent`](https://github.com/AmazingCaddy/memory-agent) → `~/repos/memory-agent/`
 - 数据：`~/memory/`（独立 git repo，版本化）
 - 前身：[`AmazingCaddy/productivity-agent`](https://github.com/AmazingCaddy/productivity-agent)（已 `ARCHIVED`）
 

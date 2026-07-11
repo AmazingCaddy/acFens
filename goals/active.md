@@ -47,7 +47,7 @@ memory-agent = MCP server，让 Claude Code / GitHub Copilot / OpenClaw 都能�
 - **HTML 分享**: React + Tailwind 静态构建
 
 ### 目录
-- 代码：`~/Code/memory-agent/`（当前本机 checkout；v1 Python 版 `~/repos/productivity-agent/` 已封存）
+- 代码：`~/repos/memory-agent/`（当前本机 checkout；v1 Python 版 `~/repos/productivity-agent/` 已封存）
 - 数据：`~/memory/`（独立 git repo，版本化）
 
 ### 10 天节奏

@@ -7,7 +7,7 @@
 ## 2026-07-11 (Sat) - D1
 
 ### 基建 + 三路 hello + MCP hello ✅
-- 在 `/Users/wenbin/Code/memory-agent` 初始化 TypeScript 项目骨架：`package.json`、`package-lock.json`、`tsconfig`、Biome、Vitest、npm scripts。
+- 在 `/Users/wenbin/repos/memory-agent` 初始化 TypeScript 项目骨架：`package.json`、`package-lock.json`、`tsconfig`、Biome、Vitest、npm scripts。
 - 安装 D1 核心依赖：LangGraph.js、Vercel AI SDK、Anthropic SDK、MCP SDK、better-sqlite3、gray-matter、zod 等。
 - 完成三路 hello：
   - `demos/d1-langgraph-hello.ts`：StateGraph 双节点 `researcher -> writer`。
