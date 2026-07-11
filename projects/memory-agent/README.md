@@ -18,7 +18,7 @@
 
 ## 技术栈（v2）
 
-- **语言/运行时**：TypeScript + Node 22 + pnpm
+- **语言/运行时**：TypeScript + Node 22 + npm
 - **Agent 框架**：LangGraph.js + Vercel AI SDK + 手写 while 循环（三路对比）
 - **MCP**：`@modelcontextprotocol/sdk`
 - **存储**：SQLite (`better-sqlite3`) + LanceDB
@@ -38,4 +38,4 @@
 - 2026-07-09：v1 Day 1 环境搭好（Python + uv + langchain）
 - 2026-07-10 上午：v1 Day 2 完成（`create_agent` + 手写 while 循环，看清 agent = 循环）
 - 2026-07-10 下午：**v2 重启**——TS + Memory Agent + MCP + 10 天
-- **进行中**：D1 基建 + 三路 hello + MCP hello
+- **已完成**：D1 基建 + 三路 hello + MCP hello（repo 级 MCP smoke 已通过）

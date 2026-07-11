@@ -4,6 +4,39 @@
 
 ---
 
+## 2026-07-11 (Sat) - D1
+
+### 基建 + 三路 hello + MCP hello ✅
+- 在 `/Users/wenbin/Code/memory-agent` 初始化 TypeScript 项目骨架：`package.json`、`package-lock.json`、`tsconfig`、Biome、Vitest、npm scripts。
+- 安装 D1 核心依赖：LangGraph.js、Vercel AI SDK、Anthropic SDK、MCP SDK、better-sqlite3、gray-matter、zod 等。
+- 完成三路 hello：
+  - `demos/d1-langgraph-hello.ts`：StateGraph 双节点 `researcher -> writer`。
+  - `demos/d1-ai-sdk-hello.ts`：AI SDK + typed tool，默认离线跳过，显式 `MEMORY_AGENT_REAL_LLM=1` 才打真实模型。
+  - `demos/d1-while-loop-hello.ts`：手写工具循环，保留 “agent = while loop + tools + memory” 心智模型。
+- 完成 MCP hello world：`src/server.ts` 暴露 `ping` tool，repo 级 `.mcp.json` 已就位。
+- 增加 `tests/mcp-client-smoke.ts` / `npm run smoke:mcp`，验证 MCP client 能 list/call `ping`。
+
+### 验证
+- `npm run typecheck` ✅
+- `npm run check` ✅
+- `npm test` ✅
+- `npm run build` ✅
+- `npm run demo:langgraph` ✅
+- `npm run demo:while-loop` ✅
+- `npm run demo:ai-sdk` ✅（默认离线跳过）
+- `npm run smoke:mcp` ✅
+- `MEMORY_AGENT_REAL_LLM=1 npm run demo:ai-sdk` ✅（经 localhost:4000 LiteLLM / Chat Completions）
+
+### 小坑
+- 项目从 pnpm 切到 npm，删除 pnpm workspace/lock，改用 `package-lock.json`。
+- 当前沙箱里 `tsx` 创建 IPC pipe 会 `EPERM`，改用 Node 24 原生 TypeScript 执行，脚本更轻，也移除了直接 `tsx` 依赖。
+- AI SDK 通过 `@ai-sdk/openai` 指向 `http://localhost:4000/v1`；需要用 `.chat(...)` 走 Chat Completions，Responses API 会被当前 LiteLLM/Copilot 后端拒绝。
+
+### 下一步（D2）
+- frontmatter schema 定稿，落 Zod schema + TS type。
+- SQLite 建表：`memories / relations / ingest_log`。
+- 初始化 `~/memory/` 数据 repo 骨架。
+
 ## 2026-07-08 (Wed) - Day 0
 - 目标锁定，方案定型（LangGraph + 飞书多维表格 + Jinja2 HTML）
 - 30 天 PLAN.md 就绪
@@ -64,10 +97,10 @@
 - [ ] 100 篇 Edge md 的文件夹路径
 - [ ] 1-2 个具体的冲突 / 过时例子（做 D6 靶子）
 
-### D1 待办（今天剩余时间）
-- [ ] 起 `~/repos/memory-agent/` 骨架（pnpm + tsconfig + biome + vitest）
-- [ ] 三路 hello：LangGraph.js / AI SDK / 手写 while
-- [ ] MCP hello world server + Claude Code 挂上验证
+### D1 待办（7/11 已完成，见上方 D1 记录）
+- [x] 起 `memory-agent` 骨架（npm + tsconfig + biome + vitest）
+- [x] 三路 hello：LangGraph.js / AI SDK / 手写 while
+- [x] MCP hello world server + repo 级 smoke 验证
 
 ### 敎橁
 - 跟老王聊一小时不到，项目从"学习 30 天"变成"10 天搭真家伙"——需求磨到够锚尖时，方案自己就会祛魅
