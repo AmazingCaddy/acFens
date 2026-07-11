@@ -40,18 +40,18 @@ memory-agent = MCP server，让 Claude Code / GitHub Copilot / OpenClaw 都能�
 4. **Curate** — 冲突/过时/重复检测 → 治理报告
 
 ### 技术栈
-- **语言**: TypeScript / Node 22 / pnpm（跟 Claude Code / OpenClaw 拉齐）
+- **语言**: TypeScript / Node 22 / npm（跟 Claude Code / OpenClaw 拉齐）
 - **Agent**: LangGraph.js + AI SDK + 手写循环（三路对比）
 - **MCP**: `@modelcontextprotocol/sdk`
 - **索引**: SQLite (`better-sqlite3`) + LanceDB
 - **HTML 分享**: React + Tailwind 静态构建
 
 ### 目录
-- 代码：`~/repos/memory-agent/`（新起，v1 Python 版 `~/repos/productivity-agent/` 已封存）
+- 代码：`~/repos/memory-agent/`（当前本机 checkout；v1 Python 版 `~/repos/productivity-agent/` 已封存）
 - 数据：`~/memory/`（独立 git repo，版本化）
 
-### 10 天节奏（D1 从明天 7/11 开始，今天 7/10 听变更不写代码）
-- **D1 (7/11 Sat)**: repo 骨架 + 三路 hello + MCP hello，Claude Code 挂上
+### 10 天节奏
+- **D1 (7/11 Sat)**: repo 骨架 + 三路 hello + MCP hello，repo 级 MCP smoke 通过 ✅
 - **D2 (7/12 Sun)**: Memory schema 定型（含 code_refs）+ SQLite/LanceDB 落地
 - **D3 (7/13 Mon)**: 扫 100 篇现有 Edge md → 健康报告
 - **D4 (7/14 Tue)**: Ingest Pipeline
@@ -66,9 +66,11 @@ memory-agent = MCP server，让 Claude Code / GitHub Copilot / OpenClaw 都能�
 - [x] v1 (Python/30天) Day 0-2 完成后重启决策 (7/10)
 - [x] 旧 repo 封存（`ARCHIVED.md`）
 - [x] PLAN v2 就位
-- [ ] D1 落地（**明天 7/11 Sat**）：起 `~/repos/memory-agent/` 骨架 + 三路 hello + MCP hello
-- [ ] 详细 checklist 见 `~/acFens/projects/memory-agent/PLAN.md`
-- [ ] v1 原 PLAN 存档：`~/acFens/projects/memory-agent/PLAN-v1-python-30day.md`
+- [x] D1 落地（7/11 Sat）：npm 骨架 + 三路 hello + MCP `ping` hello + smoke client
+- [x] AI SDK 真实调用经 `localhost:4000` LiteLLM / Chat Completions 跑通
+- [x] 详细 checklist 见 `~/acFens/projects/memory-agent/PLAN.md`
+- [x] v1 原 PLAN 存档：`~/acFens/projects/memory-agent/PLAN-v1-python-30day.md`
+- [ ] D2 落地（7/12 Sun）：frontmatter schema + SQLite 建表 + `~/memory/` 骨架
 
 ### 关键决策记录
 - **换语言 Python → TS**：跟 Claude Code / OpenClaw 拉齐

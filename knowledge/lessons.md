@@ -1,5 +1,10 @@
 # Lessons 📝
 
+## Agent 的本质是 while loop + tools + memory，不要被框架神秘化
+- **来源：** 2026-07-10 memory-agent 重启讨论 + 读 Claude Code 源码 + 手写 ReAct 循环
+- **教训：** 最小 agent 不是魔法，而是循环：模型根据 messages 决定下一步 → 可能调用 tool → 把 observation 追加回 messages → 继续，直到 stop。LangGraph、LangChain、CrewAI、Claude Code 只是把状态、checkpoint、HITL、可观测性、多 agent 协作等工程问题包装得更稳。后续选框架时要先抓住循环和状态这条主线，别被名词牵着走。
+- **次数：** 1
+
 ## acFens 里改了东西必须提 PR，不能只改本地
 - **来源：** 2026-07-08 老王提醒
 - **教训：** 同一个会话里改了 `goals/active.md` + 新建 `projects/productivity-agent/`，共 4 个文件变更，全部只在本地目录，没开 branch、没 commit、没 push。如果 session 轮换或 acFens 被其他地方 pull换新，这些改动就丢了。acFens 是持久化记忆，**任何写入都必须走 branch + PR 流程**，不能只深在本地。正确做法：写了就提；实在要多步改就一块儿变完后及时一次性 commit + PR；**在跟老王报"已完成"之前必须确认已 push**。

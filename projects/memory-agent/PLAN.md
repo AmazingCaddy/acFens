@@ -42,7 +42,7 @@
 | 组件 | 选型 |
 |---|---|
 | 语言 | **TypeScript** |
-| 运行时 | **Node 22 LTS** + **pnpm** |
+| 运行时 | **Node 22 LTS** + **npm** |
 | Agent 主框架 | **LangGraph.js**（StateGraph / checkpoint / HITL） |
 | 对比参考 | **Vercel AI SDK** + **手写 while 循环** |
 | LLM 接入 | `@anthropic-ai/sdk` / `openai` / 或 `ai` SDK 统一 |
@@ -151,15 +151,15 @@ list_stale({ domain?, older_than? })
 
 ### 🏁 D1 (7/11 Sat) — 基建 + 三路 hello + MCP hello
 
-- [ ] 新建 `~/repos/memory-agent/`，pnpm init，tsconfig，biome，vitest
-- [ ] 装依赖：`@langchain/langgraph @langchain/anthropic ai @anthropic-ai/sdk @modelcontextprotocol/sdk better-sqlite3 gray-matter`
-- [ ] 三路 hello：
+- [x] 新建 `memory-agent` repo 骨架，npm init，tsconfig，biome，vitest
+- [x] 装依赖：`@langchain/langgraph @langchain/anthropic ai @ai-sdk/openai @anthropic-ai/sdk @modelcontextprotocol/sdk better-sqlite3 gray-matter`
+- [x] 三路 hello：
   - `demos/d1-langgraph-hello.ts`（StateGraph 双节点）
   - `demos/d1-ai-sdk-hello.ts`（Vercel AI SDK `generateText` + `tools`）
   - `demos/d1-while-loop-hello.ts`（TS 版手写循环，对照 Python `day2-agent-from-scratch.py`）
-- [ ] MCP hello world：起一个只有 `ping` tool 的 MCP server，让 Claude Code 挂上
-- [ ] 更新 `~/.claude/mcp.json`（或 repo 级 `.mcp.json`）
-- **产出**：repo 就位 + 三路对比笔记初稿 + Claude Code 里能看到 memory-agent MCP server
+- [x] MCP hello world：起一个只有 `ping` tool 的 MCP server，并用 smoke client 验证
+- [x] 更新 repo 级 `.mcp.json`
+- **产出**：repo 就位 + 三路对比笔记初稿 + repo 级 MCP smoke 能看到并调用 memory-agent `ping` tool
 
 ### 🏗️ D2 (7/12 Sun) — Memory System 定型 + schema 落地
 
@@ -243,7 +243,7 @@ list_stale({ domain?, older_than? })
 
 | 维度 | v1 | v2 |
 |---|---|---|
-| 语言 | Python 3.12 + uv | TypeScript + Node 22 + pnpm |
+| 语言 | Python 3.12 + uv | TypeScript + Node 22 + npm |
 | 主框架 | LangGraph (Py) + CrewAI | **LangGraph.js + AI SDK + 手写循环** 三路 |
 | 定位 | 通用生产力 Agent | **Memory Agent（MCP server）** |
 | 主战场 | 飞书聊天 | **IDE (Claude Code / Copilot)** |
@@ -282,10 +282,16 @@ list_stale({ domain?, older_than? })
 - ✅ 新 repo `~/repos/memory-agent/` 初始化，挂 remote `AmazingCaddy/memory-agent`
 - ✅ acFens PLAN v2 / v1 存档 / README / goals / JOURNAL / 2026-07-10 episode 全部更新
 
-**明天 (D1, 7/11 Sat) 要干**：
-1. 老王把 Edge md 库路径告诉我（也可以今晚先告诉，我可以提前扫一眼）
-2. 起 `~/repos/memory-agent/` 骨架（pnpm + tsconfig + biome + vitest）
-3. 三路 hello + MCP hello 落地
-4. Claude Code 挂上 memory-agent MCP server 验证
+**D1 (7/11 Sat) 已完成**：
+1. 起 `memory-agent` 骨架（npm + tsconfig + biome + vitest）
+2. 三路 hello + MCP hello 落地
+3. repo 级 `.mcp.json` + MCP smoke client 验证 `ping`
+4. AI SDK 真实调用经 `localhost:4000` LiteLLM / Chat Completions 跑通
+
+**D2 (7/12 Sun) 要干**：
+1. frontmatter schema 定稿，写成 Zod schema + TS type
+2. SQLite 建表：`memories / relations / ingest_log`
+3. `~/memory/` 独立 repo `git init` + 目录骨架
+4. `src/schema.ts` + `src/store/sqlite.ts` 起步
 
 冲 🚀
