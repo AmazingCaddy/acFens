@@ -1,5 +1,14 @@
 # Lessons 📝
 
+## 系统 OOM 会导致 gateway 静默重启、工具调用中断
+- **来源：** 2026-10-02 飞书私聊中连续两次工具调用被 "gateway restart" 打断
+- **现象：** 工具结果丢失、系统提示 interrupted by a gateway restart。查 journalctl 才发现网关 90 分钟内重启 13+ 次，其中两次是 `Main process exited, code=killed, status=9/KILL`。别只当成普通的 session 轮换。
+- **根因：** 宿主机仅 3.86 GB 内存且**无 swap**，gateway 以 `--max-old-space-size=2048` 运行，叠加 sqlite / spawn-broker 子进程打爆内存，触发 OOM killer；gateway 的 `oom_score_adj=200`，内存一紧首当其冲被杀。
+- **修复：** ① 加 swapfile 并写入 `/etc/fstab` 持久化；② systemd unit 里把 `--max-old-space-size` 从 2048 降到 1024。改完必须重启 gateway 才生效。
+- **排查口诀：** 工具中断/疑似重启 → `journalctl --user -u openclaw-gateway --since '1 hour ago' | grep -E 'Started|Stopped|killed|Failed'` 看时间线 → `dmesg -T | grep -iE 'oom|killed process'` → `free -m` + `cat /proc/swaps`。
+- **边界：** gateway 服务不能由我（agent）自己重启（安全规则），要用 `/restart` 或让老王在终端跑 `systemctl --user restart openclaw-gateway`。
+- **次数：** 1
+
 ## Agent 的本质是 while loop + tools + memory，不要被框架神秘化
 - **来源：** 2026-07-10 memory-agent 重启讨论 + 读 Claude Code 源码 + 手写 ReAct 循环
 - **教训：** 最小 agent 不是魔法，而是循环：模型根据 messages 决定下一步 → 可能调用 tool → 把 observation 追加回 messages → 继续，直到 stop。LangGraph、LangChain、CrewAI、Claude Code 只是把状态、checkpoint、HITL、可观测性、多 agent 协作等工程问题包装得更稳。后续选框架时要先抓住循环和状态这条主线，别被名词牵着走。
